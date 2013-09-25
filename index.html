@@ -4,11 +4,13 @@
         <meta charset="utf-8">
         <title>D3 Test</title>
         <script type="text/javascript" src="d3/d3.v3.js"></script>
-        
     </head>
     <body>
         <script type="text/javascript">
             d3.select("body").append("p").text("New paragraph!");
+			
+			d3.csv("scatterplot.csv", function(data) {console.log(data);});
+			   
         </script>
     </body>
 </html>
