@@ -57,7 +57,8 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.tsv("data.tsv", function(error, data) {
+  d3.tsv("data.tsv", function(error, data) {
+  //d3.tsv("time-series.tsv", function(error, data) {
   data.forEach(function(d) {
     d.sepalLength = +d.sepalLength;
     d.sepalWidth = +d.sepalWidth;
