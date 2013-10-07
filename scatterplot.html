@@ -17,6 +17,12 @@ body {
   stroke: #000;
 }
 
+circle {
+  fill-opacity: .3;
+}
+
+
+
 </style>
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -34,6 +40,9 @@ var y = d3.scale.linear()
 
 var color = d3.scale.category10();
 
+
+// Axis ****************
+
 var xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom");
@@ -41,72 +50,126 @@ var xAxis = d3.svg.axis()
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
+	
+	
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-  .append("g")
+    .append("g") //g is a group element
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.tsv("data.tsv", function(error, data) {
+/*d3.tsv("data.tsv", function(error, data) {
   data.forEach(function(d) {
     d.sepalLength = +d.sepalLength;
     d.sepalWidth = +d.sepalWidth;
+  });*/
+  
+  d3.csv("scatterplot_a3.csv", function(error, data) {
+  data.forEach(function(d) {
+		d.Fmax = +d.Fmax; 
+		d.Fdrai = +d.Fdrai;
+		d.Sy = +d.Sy;
+		d.LH = +d.LH;
+		d.SH = +d.SH;
+		d.runoff = +d.runoff;
+		d.BTRAN = +d.BTRAN;
+		d.GPP = +d.GPP;
+		d.TLAI = +d.TLAI;
+		d.TOTVEGC = +d.TOTVEGC;
+		d.TOTSOMC = +d.TOTSOMC;
   });
+  
 
-  x.domain(d3.extent(data, function(d) { return d.sepalWidth; })).nice();
-  y.domain(d3.extent(data, function(d) { return d.sepalLength; })).nice();
+  /*x.domain(d3.extent(data, function(d) { return d.sepalWidth; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.sepalLength; })).nice();*/
+  
+  /*x.domain(d3.extent(data, function(d) { return d.Fmax; })).rangeRound([0, 900]);
+  y.domain(d3.extent(data, function(d) { return d.Fdrai; })).rangeRound([0, 450]);*/
+  
+  x.domain(d3.extent(data, function(d) { return d.Fmax; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.Fdrai; })).nice();
 
   svg.append("g")
-      .attr("class", "x axis")
+      .attr("class", "x axis") //Assigns "axis" class for x axis
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis)
-    .append("text")
+      .append("text")
       .attr("class", "label")
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text("Sepal Width (cm)");
+      .text("Fmax __ Runoff Levels -->____");
 
   svg.append("g")
-      .attr("class", "y axis")
+      .attr("class", "y axis") //Assigns "axis" class for y axis
       .call(yAxis)
-    .append("text")
+      .append("text")
       .attr("class", "label")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Sepal Length (cm)")
+      .text("Fdrai")
 
-  svg.selectAll(".dot")
+ /* svg.selectAll(".dot")
       .data(data)
     .enter().append("circle")
       .attr("class", "dot")
       .attr("r", 3.5)
       .attr("cx", function(d) { return x(d.sepalWidth); })
       .attr("cy", function(d) { return y(d.sepalLength); })
-      .style("fill", function(d) { return color(d.species); });
+      .style("fill", function(d) { return color(d.species); }); */
+	  
+ svg.selectAll(".dot")
+      .data(data)
+      .enter().append("circle")
+      .attr("class", "dot")
+      .attr("r", 20)
+	  //.attr("r", function(d) { return Math.sqrt(h - d[1]);})
+      .attr("cx", function(d) { return x(d.Fmax); })
+      .attr("cy", function(d) { return y(d.Fdrai); })
+      .style("fill", function(d) { return color(d.Sy); });
+	  
+
+  /* Labels - adapted from "Interactive Data Visualization for the Web"*/
+  
+  svg.selectAll("text") 
+     .data(data)
+     .enter()
+	 .append("text")
+	 .text(function(d) { return x(d.Fmax) + "," + y(d.Fdrai); })
+	 .attr("x", function(d) { return x(d.Fmax); })
+	 .attr("y", function(d) { return y(d.Fdrai); })
+	 .rangeRound([0,100])
+	 .attr("font-family", "sans-serif")
+	 .attr("font-size", "8px")
+	 .attr("fill", "black");
+
+
+/* Legend  
 
   var legend = svg.selectAll(".legend")
       .data(color.domain())
-    .enter().append("g")
+      .enter().append("g")
       .attr("class", "legend")
       .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+	  //.attr("fill", function(d, i) { return "rgb(0, 0, " + (d * 10) + ")"; });
+	 
 
   legend.append("rect")
       .attr("x", width - 18)
-      .attr("width", 18)
+      .attr("width", 36)
       .attr("height", 18)
       .style("fill", color);
 
   legend.append("text")
-      .attr("x", width - 24)
+      .attr("x", width + 16)
       .attr("y", 9)
       .attr("dy", ".35em")
       .style("text-anchor", "end")
-      .text(function(d) { return d; });
-
-});
+      .text(function(d) { return d; }); 
+	  */
+	  }); 
 
 </script>

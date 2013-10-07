@@ -1,3 +1,14 @@
+<!-- 
+Joseph Raetano 
+Class:         COSC 494/557, Fall 2013. 
+Assignment:    #3 
+Topic:         D3.js Introduction
+Date Assigned: 6:20pm,  Tuesday, September 24, 2013. 
+Date Due:      11:59pm, Tuesday, October 8, 2013.
+Ref: Code adapted from http://bl.ocks.org/mbostock
+-->
+
+
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
@@ -109,7 +120,7 @@ d3.csv("scatterplot.csv", function(error, data) {
       .attr("r", 20.0)
       .attr("cx", function(d) { return x(d.Fmax); })
       .attr("cy", function(d) { return y(d.Fdrai); })
-      .style("fill", function(d) { return color("blue"); });
+      .style("fill", function(d) { return color(d.sy); });
 
   var legend = svg.selectAll(".legend")
       .data(color.domain())

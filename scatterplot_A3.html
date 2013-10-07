@@ -17,20 +17,6 @@ body {
   stroke: #000;
 }
 
-circle {
-  fill-opacity: .3;
-}
-
-circle.hidden {
-  fill: #ccc !important;
-}
-
-.extent {
-  fill: #000;
-  fill-opacity: .125;
-  stroke: #fff;
-}
-
 </style>
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -59,26 +45,17 @@ var yAxis = d3.svg.axis()
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-    .append("g")
+  .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("scatterplot.csv", function(error, data) {
+d3.tsv("data.tsv", function(error, data) {
   data.forEach(function(d) {
-		d.Fmax = +d.Fmax; 
-		d.Fdrai = +d.Fdrai;
-		d.Sy = +d.Sy;
-		d.LH = +d.LH;
-		d.SH = +d.SH;
-		d.runoff = +d.runoff;
-		d.BTRAN = +d.BTRAN;
-		d.GPP = +d.GPP;
-		d.TLAI = +d.TLAI;
-		d.TOTVEGC = +d.TOTVEGC;
-		d.TOTSOMC = +d.TOTSOMC;
+    d.sepalLength = +d.sepalLength;
+    d.sepalWidth = +d.sepalWidth;
   });
 
-  x.domain(d3.extent(data, function(d) { return d.Fmax; })).nice();
-  y.domain(d3.extent(data, function(d) { return d.Fdrai; })).nice();
+  x.domain(d3.extent(data, function(d) { return d.sepalWidth; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.sepalLength; })).nice();
 
   svg.append("g")
       .attr("class", "x axis")
@@ -89,7 +66,7 @@ d3.csv("scatterplot.csv", function(error, data) {
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text("Fmax");
+      .text("Sepal Width (cm)");
 
   svg.append("g")
       .attr("class", "y axis")
@@ -100,16 +77,16 @@ d3.csv("scatterplot.csv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Fdrai")
+      .text("Sepal Length (cm)")
 
   svg.selectAll(".dot")
       .data(data)
       .enter().append("circle")
       .attr("class", "dot")
-      .attr("r", 20.0)
-      .attr("cx", function(d) { return x(d.Fmax); })
-      .attr("cy", function(d) { return y(d.Fdrai); })
-      .style("fill", function(d) { return color("blue"); });
+      .attr("r", 3.5)
+      .attr("cx", function(d) { return x(d.sepalWidth); })
+      .attr("cy", function(d) { return y(d.sepalLength); })
+      .style("fill", function(d) { return color(d.species); });
 
   var legend = svg.selectAll(".legend")
       .data(color.domain())
@@ -121,7 +98,6 @@ d3.csv("scatterplot.csv", function(error, data) {
       .attr("x", width - 18)
       .attr("width", 18)
       .attr("height", 18)
-	   .attr("fill-opacity", .3)
       .style("fill", color);
 
   legend.append("text")
