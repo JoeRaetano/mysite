@@ -1,14 +1,13 @@
 <!-- 
 Joseph Raetano 
 Class:         COSC 494/557, Fall 2013. 
-Assignment:    #3 
+Assignment:    #3 Part 1 Scatterplot
 Topic:         D3.js Introduction
 Date Assigned: 6:20pm,  Tuesday, September 24, 2013. 
 Date Due:      11:59pm, Tuesday, October 8, 2013.
 Ref: Code adapted from http://bl.ocks.org/mbostock
 Code also adapted from "Interactive Data Visualization for the Web"
 -->
-
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
@@ -48,11 +47,8 @@ var y = d3.scale.linear()
     .range([height, 0]);
 
 var color = d3.scale.category20c();
-//var color = d3.scale.linear();
 
 var precision = d3.format("1.2r");
-
-// Axis ****************
 
 var xAxis = d3.svg.axis()
     .scale(x)
@@ -92,7 +88,6 @@ d3.select("p").on("click", function() {
       .enter().append("circle")
       .attr("class", "dot")
       .attr("r", 10)
-	  //.attr("r", function(d) { return Math.sqrt(h - d[1]);})
       .attr("cx", function(d) { return x(d.Fmax); })
       .attr("cy", function(d) { return y(d.Fdrai); })
       .style("fill", function(d) { return color(d.Fdrai); })
