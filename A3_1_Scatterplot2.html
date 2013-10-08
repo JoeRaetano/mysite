@@ -79,10 +79,53 @@ d3.csv("scatterplot_a3.csv", function(error, data) {
 		d.TOTVEGC = +d.TOTVEGC;
 		d.TOTSOMC = +d.TOTSOMC;
   });
-  
-  x.domain(d3.extent(data, function(d) { return d.Fmax; })).nice();
-  y.domain(d3.extent(data, function(d) { return d.Fdrai; })).nice();
+ 
 
+  
+  var xvar = "Fmax";
+  var yvar = "Fdrai";
+  var dvar = d.Fmax;
+  var cvar = d.Fdrai;
+
+
+  if (xvar == "Fmax" & yvar == "Fdrai") action1() = "action1";
+  else if (xvar == "Fmax" & yvar == "Fdrai") action2() = "action2";
+  else if (xvar == "Fdrai" & yvar == "Sy") action3() = "action3";
+  else if (xvar == "Sy" & yvar == "LH") action4();
+  else if (xvar == "LH" & yvar == "SH") action5();
+  else if (xvar == "SH" & yvar == "runoff") action6();
+  else if (xvar == "runoff" & yvar == "BTRAN") action7();
+  else if (xvar == "BTRAN" & yvar == "GPP") action8();
+  else if (xvar == "GPP" & yvar == "TLAI") action9();
+  else if (xvar == "TLAI" & yvar == "TOTVEGC") action10();
+  else if (xvar == "TOTVEGC" & yvar == "TOTSOMC") action11();
+  else if (xvar == "TOTSOMC" & yvar == "Fmax") action12();
+  else defaultAction();
+  
+  function action1() {
+  x.domain(d3.extent(data, function(d) { return dvar; })).nice();
+  y.domain(d3.extent(data, function(d) { return cvar; })).nice();
+  };
+  
+  function action2() {
+  x.domain(d3.extent(data, function(d) { return d.Fdrai; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.Sy; })).nice();
+  xvar = "Fdrai";
+  yvar = "Sy";
+  };
+  
+  function action3() {
+  x.domain(d3.extent(data, function(d) { return d.Sy; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.LH; })).nice();
+  xvar = "Sy";
+  yvar = "LH";
+  };
+  //x.domain(d3.extent(data, function(d) { return d.xvar; })).nice();
+  //y.domain(d3.extent(data, function(d) { return d.yvar; })).nice();
+//  action1();
+action2();
+//action2();
+function defaultAction() {
   // Draw x axis
   svg.append("g")
       .attr("class", "x axis") //Assigns "axis" class for x axis
@@ -93,7 +136,8 @@ d3.csv("scatterplot_a3.csv", function(error, data) {
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text("Fmax");
+      //.text("Fmax");
+	  .text(xvar);
 
  // Draw y axis
   svg.append("g")
@@ -105,10 +149,11 @@ d3.csv("scatterplot_a3.csv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Fdrai");
-
+      .text(yvar);
+	  //.text("Fdrai");
+ };
  // basic function to append data to circles
- d3.select("button").on("click", function() {
+ d3.select("button").on("click", function() { 
   svg.selectAll(".dot")
       .data(data)
       .enter().append("circle")
@@ -116,15 +161,16 @@ d3.csv("scatterplot_a3.csv", function(error, data) {
       //.attr("r", 0)  // This transition stops the append("title") function from working properly
 	  //.transition()
 	  .attr("r", 10)
-      .attr("cx", function(d) { return x(d.Fmax); })
-      .attr("cy", function(d) { return y(d.Fdrai); })
+      .attr("cx", function(d) { return x(dvar); })
+      .attr("cy", function(d) { return y(cvar); })
       .style("fill", function(d) { return color(d.TLAI); })
 	  //appends a title tag to each circle
-	  .append("title").text(function(d) {return "Fmax: " + precision(d.Fmax) + " Fdrai: " + precision(d.Fdrai);});
+	  .append("title").text(function(d) {return "Fmax: " + precision(dvar) + " Fdrai: " + precision(cvar);});
+	  
 
     //circle.exit().remove();
 
-	 }); //end of on click function
+	}); //end of on click function
    }); 
 </script>
 
