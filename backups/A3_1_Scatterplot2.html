@@ -1,0 +1,179 @@
+<!-- 
+Joseph Raetano 
+Class:         COSC 494/557, Fall 2013. 
+Assignment:    #3 Part 1 Scatterplot
+Topic:         D3.js Introduction
+Date Assigned: 6:20pm,  Tuesday, September 24, 2013. 
+Date Due:      11:59pm, Tuesday, October 8, 2013.
+Ref: Code adapted from http://bl.ocks.org/mbostock
+Code also adapted from "Interactive Data Visualization for the Web"
+-->
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  stroke: #000;
+}
+
+circle {
+  fill-opacity: .3;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 30},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scale.linear()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var color = d3.scale.category20c();
+
+//applies formatting to title tag
+var precision = d3.format("1.2r");
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");	
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g") //g is a group element
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  
+d3.csv("scatterplot_a3.csv", function(error, data) {
+  data.forEach(function(d) {
+		d.Fmax = +d.Fmax; 
+		d.Fdrai = +d.Fdrai;
+		d.Sy = +d.Sy;
+		d.LH = +d.LH;
+		d.SH = +d.SH;
+		d.runoff = +d.runoff;
+		d.BTRAN = +d.BTRAN;
+		d.GPP = +d.GPP;
+		d.TLAI = +d.TLAI;
+		d.TOTVEGC = +d.TOTVEGC;
+		d.TOTSOMC = +d.TOTSOMC;
+  });
+ 
+
+  
+  var xvar = "Fmax";
+  var yvar = "Fdrai";
+  var dvar = d.Fmax;
+  var cvar = d.Fdrai;
+
+
+  if (xvar == "Fmax" & yvar == "Fdrai") action1() = "action1";
+  else if (xvar == "Fmax" & yvar == "Fdrai") action2() = "action2";
+  else if (xvar == "Fdrai" & yvar == "Sy") action3() = "action3";
+  else if (xvar == "Sy" & yvar == "LH") action4();
+  else if (xvar == "LH" & yvar == "SH") action5();
+  else if (xvar == "SH" & yvar == "runoff") action6();
+  else if (xvar == "runoff" & yvar == "BTRAN") action7();
+  else if (xvar == "BTRAN" & yvar == "GPP") action8();
+  else if (xvar == "GPP" & yvar == "TLAI") action9();
+  else if (xvar == "TLAI" & yvar == "TOTVEGC") action10();
+  else if (xvar == "TOTVEGC" & yvar == "TOTSOMC") action11();
+  else if (xvar == "TOTSOMC" & yvar == "Fmax") action12();
+  else defaultAction();
+  
+  function action1() {
+  x.domain(d3.extent(data, function(d) { return dvar; })).nice();
+  y.domain(d3.extent(data, function(d) { return cvar; })).nice();
+  };
+  
+  function action2() {
+  x.domain(d3.extent(data, function(d) { return d.Fdrai; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.Sy; })).nice();
+  xvar = "Fdrai";
+  yvar = "Sy";
+  };
+  
+  function action3() {
+  x.domain(d3.extent(data, function(d) { return d.Sy; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.LH; })).nice();
+  xvar = "Sy";
+  yvar = "LH";
+  };
+  //x.domain(d3.extent(data, function(d) { return d.xvar; })).nice();
+  //y.domain(d3.extent(data, function(d) { return d.yvar; })).nice();
+//  action1();
+action2();
+//action2();
+function defaultAction() {
+  // Draw x axis
+  svg.append("g")
+      .attr("class", "x axis") //Assigns "axis" class for x axis
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+      .append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+      //.text("Fmax");
+	  .text(xvar);
+
+ // Draw y axis
+  svg.append("g")
+      .attr("class", "y axis") //Assigns "axis" class for y axis
+      .call(yAxis)
+      .append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text(yvar);
+	  //.text("Fdrai");
+ };
+ // basic function to append data to circles
+ d3.select("button").on("click", function() { 
+  svg.selectAll(".dot")
+      .data(data)
+      .enter().append("circle")
+      .attr("class", "dot")
+      //.attr("r", 0)  // This transition stops the append("title") function from working properly
+	  //.transition()
+	  .attr("r", 10)
+      .attr("cx", function(d) { return x(dvar); })
+      .attr("cy", function(d) { return y(cvar); })
+      .style("fill", function(d) { return color(d.TLAI); })
+	  //appends a title tag to each circle
+	  .append("title").text(function(d) {return "Fmax: " + precision(dvar) + " Fdrai: " + precision(cvar);});
+	  
+
+    //circle.exit().remove();
+
+	}); //end of on click function
+   }); 
+</script>
+
+<button onclick="click"> Click to see Fmax and Fdrai paired values </button>
+
+

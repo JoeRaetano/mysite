@@ -1,0 +1,266 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>CyVis - App</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<title>Untitled Document</title>
+<style type="text/css">
+#header {
+	font-size: 36px;
+	background-color: #F90;
+	font-weight: bold;
+	color: #FFF;
+	vertical-align: middle;
+	text-align: center;
+	padding: 5px;
+	border-radius: 15px;
+	margin: 0px;
+}
+#body {
+
+}
+li {
+	font-size: 18px;
+	color: #FFF;
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	text-align: left;
+}
+#side_panel {
+	font-size: 18px;
+	color: #FFF;
+	height: 100%;
+	width: 150px;
+	background-color: #F90;
+	padding: 5px;
+	margin-top: 0px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 0px;
+	border-radius: 15px;
+	float: left;
+}
+#middle {
+	height: 800px;
+	width: 100%;
+}
+#footer {
+	clear:both;
+	font-size: 16px;
+	background-color: #F90;
+	padding: 10px;
+	margin-top: 5px;
+	color: #FFF;
+	border-radius: 15px;
+	text-align: center;
+}
+#model_space {
+	background-color: #CCC;
+	padding: 5px;
+	height: 100%;
+	width: 800;
+	border-radius: 15px;
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 165px;	
+}
+
+#model_spaceL{
+	height: 500;
+	width:5;
+	float: left;
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
+
+
+#model_spaceR{
+	height: 100%;
+	width:650;
+	float: left;
+}
+
+
+a {
+	font-size: 24px;
+	color: #FFF;
+	font-style: normal;
+	text-decoration: none;
+	text-align: center;
+	margin: 5px;
+	padding: 5px;
+	list-s
+	
+	
+	tyle-type: none;
+}
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.link {
+  stroke: black;
+  stroke-opacity: .6;
+}
+div.bigtip {
+  visibility: hidden;
+  position: absolute;           
+  text-align: center;           
+  width: 200px;                  
+  height: 180px;                 
+  padding: 2px;             
+  font: 12px calibri;        
+  background:aliceblue;   
+  border: 3px;      
+  border-radius: 8px;           
+  border-style:solid;
+  border-color:powderblue;
+  pointer-events: none;         
+}
+
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 100px;                  
+  height: 30px;                 
+  padding: 2px;             
+  font: 12px calibri;        
+  background: aliceblue;   
+  border: 3px;      
+  border-radius: 8px;           
+  border-style: solid;
+  border-color: powderblue;
+  pointer-events: none;         
+}
+
+
+.chart rect {
+  fill: steelblue;
+}
+
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+
+
+
+
+</style>
+</head>
+
+<body id="body">
+
+<div id="header">CyVis Network Visualization
+</div>
+
+<div id="middle">
+   <div id="side_panel">
+   
+	 <ul>
+	
+
+        <li><a href="index.html">Graph 1</a></li>
+		<li><a href="graph2.html" ><b><font color="black"">Graph 2</font></b></a></li>
+        <li><a href="graph3.html">Graph 3</a></li>
+		<li><a href="graph4.html">Graph 4</a></li>
+     </ul>
+   
+ </div>
+   <div id="model_space" class="cont" >
+	<p>If at any time the data file is updated, just reload the page.</p>
+	<div id="model_container">
+		<div id="model_spaceL" class="cont1">
+		
+			<script src="nodes_2.js"> </script>
+		
+		</div>
+	</div>
+	
+	<div id="separator" />
+	
+	<div id="model_container2">
+		<div id="model_spaceR" class="cont2">
+		<p>Relative vulnerabilities between selected applications:</p>
+		<svg class="chart"></svg>
+			<script>
+			(function() {
+var width = 200,
+    barHeight = 20;
+
+var x = d3.scale.linear()
+    .range([50, width]);
+
+var chart = d3.select(".chart")
+    .attr("width", width);
+
+d3.tsv("data.tsv", type, function(error, data) {
+  x.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+  chart.attr("height", barHeight * data.length);
+
+  var bar = chart.selectAll("g")
+      .data(data)
+    .enter().append("g")
+      .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+  bar.append("rect")
+      .attr("width", function(d) { return x(d.value); })
+      .attr("height", barHeight - 1);
+
+  bar.append("text")
+      .attr("x", function(d) { return x(d.value) - 3; })
+      .attr("y", barHeight / 2)
+      .attr("dy", ".35em")
+      .text(function(d) { return d.name; });
+});
+
+function type(d) {
+  d.value = +d.value; // coerce to number
+  return d;
+}
+
+function arr_diff(a1, a2)
+{
+	var a3 = [];
+	for (i = 0; i < a1.length; i++) {
+		if (a2.indexOf(a1[i]) > -1)
+			a3.append(a1[i]);
+	}
+	return a3;
+  /*var a=[], diff=[];
+  for(var i=0;i<a1.length;i++)
+    a[a1[i]]=true;
+  for(var i=0;i<a2.length;i++)
+    if(a[a2[i]]) delete a[a2[i]];
+    else a[a2[i]]=true;
+  for(var k in a)
+    diff.push(k);
+  return diff;*/
+}
+
+
+})();
+			</script>
+		
+		</div>
+	
+	</div>
+	
+	</div>
+</div>
+
+<div id="footer"> The University of Tennessee - EECS Dept.
+<br />Data Visualization  Fall 2013
+</div>
+
+</body>
+</html>

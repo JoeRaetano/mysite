@@ -117,8 +117,13 @@ d3.tsv("data2.tsv", function(error, data) {
       .attr("class", "line")
       .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return color(d.name); })
+<<<<<<< HEAD
 	  .append("title").text(function(d) {return (this,d.values, d.name) ;});
    
+=======
+	  .append("title").text(function(d) {return (d.name);});
+
+>>>>>>> 9f0f3f484c0d6aff9d4c186f6f35e8b196dca7b9
   city.append("text")
       .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
       .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.temperature) + ")"; })

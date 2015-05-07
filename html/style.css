@@ -1,0 +1,145 @@
+#header {
+	font-size: 36px;
+	background-color: #F90;
+	font-weight: bold;
+	color: #FFF;
+	vertical-align: middle;
+	text-align: center;
+	padding: 5px;
+	border-radius: 15px;
+	margin: 0px;
+}
+#body {
+
+}
+li {
+	font-size: 18px;
+	color: #FFF;
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	text-align: left;
+}
+#side_panel {
+	font-size: 18px;
+	color: #FFF;
+	height: 100%;
+	width: 15%;
+	background-color: #F90;
+	padding: 5px;
+	margin-top: 0px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 0px;
+	border-radius: 15px;
+	float: left;
+}
+
+#middle {
+	height: 800px;
+	width: 100%;
+}
+#footer {
+	clear:both;
+	font-size: 16px;
+	background-color: #F90;
+	padding: 10px;
+	margin-top: 5px;
+	color: #FFF;
+	border-radius: 15px;
+	text-align: center;
+}
+#model_space {
+	background-color: #CCC;
+	padding: 5px;
+	height: 100%;
+	width: 100%; /*800px;*/
+	border-radius: 15px;
+	/*margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 165px;*/
+}
+
+#model_spaceL{
+	/*height: 500px;
+	width:  600px;*/
+	height: 100%;
+	width: 80%;
+	float: left;
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 5px
+}
+
+
+#model_spaceR{
+	height: 200px;
+	width:  100px;
+	float: left;
+}
+
+
+a {
+	font-size: 24px;
+	color: #FFF;
+	font-style: normal;
+	text-decoration: none;
+	text-align: center;
+	margin: 5px;
+	padding: 5px;
+	list-style-type: none;
+}
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.link {
+  stroke: black;
+  stroke-opacity: 0.6;
+}
+div.bigtip {
+  visibility: hidden;
+  position: absolute;           
+  text-align: left;           
+  width: 200px;                  
+  height: 180px;                 
+  padding-top: 10px;
+  padding: 5px;             
+  font: 12px calibri;        
+  background:aliceblue;   
+  border: 3px;      
+  border-radius: 8px;           
+  border-style:solid;
+  border-color:powderblue;
+  pointer-events: none;         
+}
+
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 100px;                  
+  height: 30px;                 
+  padding: 2px;             
+  font: 12px calibri;        
+  background: aliceblue;   
+  border: 3px;      
+  border-radius: 8px;           
+  border-style: solid;
+  border-color: powderblue;
+  pointer-events: none;         
+}
+
+
+.chart rect {
+  fill: steelblue;
+}
+
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
